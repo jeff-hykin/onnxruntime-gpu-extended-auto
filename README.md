@@ -24,11 +24,16 @@ ABI that the filename cannot express lives in the version number instead.
 
 | Detected | Installs |
 |---|---|
+| CUDA 11 / cuDNN 8 (JetPack 5, L4T r35.x) | `onnxruntime-gpu-extended==1.18.1.11.8` |
 | CUDA 12 / cuDNN 8 (JetPack 6.0, L4T r36.3) | `onnxruntime-gpu-extended==1.22.2.12.8` |
 | CUDA 12 / cuDNN 9 (JetPack 6.1 / 6.2, L4T r36.4) | `onnxruntime-gpu-extended==1.23.2.12.9` |
 | anything not aarch64 | `onnxruntime-gpu` |
 
 Check what you have with `head -1 /etc/nv_tegra_release`.
+
+JetPack 5 is capped at onnxruntime 1.18.1 — the last release whose cmake accepts
+CUDA 11.4. Flash and memory-efficient attention compile out below CUDA 11.6, so
+those kernels are absent from that build.
 
 Jetson is the only platform upstream never shipped CUDA wheels for, so on x86_64
 this hands you the normal `onnxruntime-gpu` and gets out of the way. It is safe

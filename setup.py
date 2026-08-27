@@ -10,7 +10,7 @@ import sys
 
 from setuptools import setup
 
-DISPATCHER_VERSION = "1.23.2"
+DISPATCHER_VERSION = "1.23.3"
 DISTRIBUTION = "onnxruntime-gpu-extended"
 
 # Jetson is the only platform upstream never shipped CUDA wheels for.
@@ -20,6 +20,7 @@ UPSTREAM_DISTRIBUTION = "onnxruntime-gpu"
 # ABI lives in the version rather than in the project name.
 # (cuda_major, cudnn_major) -> version
 VARIANTS = {
+    (11, 8): "1.18.1.11.8",
     (12, 8): "1.22.2.12.8",
     (12, 9): "1.23.2.12.9",
 }
@@ -125,7 +126,7 @@ setup(
     long_description_content_type="text/markdown",
     license="MIT",
     url="https://github.com/jeff-hykin/onnxruntime-gpu-extended-auto",
-    python_requires=">=3.10",
+    python_requires=">=3.8",
     install_requires=[requirement],
     py_modules=[],
     classifiers=[
