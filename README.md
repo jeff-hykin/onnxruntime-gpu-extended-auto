@@ -26,8 +26,13 @@ ABI that the filename cannot express lives in the version number instead.
 |---|---|
 | CUDA 12 / cuDNN 8 (JetPack 6.0, L4T r36.3) | `onnxruntime-gpu-extended==1.22.2.12.8` |
 | CUDA 12 / cuDNN 9 (JetPack 6.1 / 6.2, L4T r36.4) | `onnxruntime-gpu-extended==1.23.2.12.9` |
+| anything not aarch64 | `onnxruntime-gpu` |
 
 Check what you have with `head -1 /etc/nv_tegra_release`.
+
+Jetson is the only platform upstream never shipped CUDA wheels for, so on x86_64
+this hands you the normal `onnxruntime-gpu` and gets out of the way. It is safe
+to depend on from a project that runs on both.
 
 ## Install it on the device
 
@@ -45,7 +50,7 @@ ORT_GPU_EXTENDED_VARIANT='onnxruntime-gpu-extended==1.23.2.12.9' pip install onn
 ```
 
 The same variable is how this package's own source archive gets built off-device,
-since detection otherwise refuses to run on a non-Jetson machine.
+since detection otherwise refuses to run on an aarch64 machine without CUDA.
 
 ## Verify
 

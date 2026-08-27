@@ -3,6 +3,7 @@ matching the CUDA/cuDNN majors present on the machine running pip."""
 
 import glob
 import os
+import platform
 import re
 import subprocess
 import sys
@@ -11,6 +12,9 @@ from setuptools import setup
 
 DISPATCHER_VERSION = "1.23.2"
 DISTRIBUTION = "onnxruntime-gpu-extended"
+
+# Jetson is the only platform upstream never shipped CUDA wheels for.
+UPSTREAM_DISTRIBUTION = "onnxruntime-gpu"
 
 # Published wheel versions are <ort_version>.<cuda_major>.<cudnn_major>, so the
 # ABI lives in the version rather than in the project name.
@@ -66,6 +70,11 @@ def detect_requirement():
     override = os.environ.get("ORT_GPU_EXTENDED_VARIANT")
     if override:
         return override, "ORT_GPU_EXTENDED_VARIANT"
+
+    # Only Jetson lacks upstream CUDA wheels; everywhere else upstream is correct.
+    machine = platform.machine()
+    if machine not in ("aarch64", "arm64"):
+        return UPSTREAM_DISTRIBUTION, "non-aarch64 machine (%s)" % machine
 
     cuda_majors = soname_majors("libcudart")
     cudnn_majors = soname_majors("libcudnn")
